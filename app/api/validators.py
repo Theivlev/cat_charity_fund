@@ -4,13 +4,12 @@ from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud.charity_project import charity_project_crud
-from app.models import CharityProject
 
 
 async def check_duplicate(
     project_name: str,
     session: AsyncSession,
-) -> None:
+):
     project_id = await charity_project_crud.get_id_name(
         project_name, session
     )
@@ -24,7 +23,7 @@ async def check_duplicate(
 async def check_exists(
     charityproject_id: int,
     session: AsyncSession,
-) -> CharityProject:
+):
     project = await charity_project_crud.get(charityproject_id, session)
     if project is None:
         raise HTTPException(
@@ -35,7 +34,7 @@ async def check_exists(
 
 async def check_invested(
     project_id: int, session: AsyncSession
-) -> None:
+):
     invested_project = await charity_project_crud.get_invested_amount(
         project_id, session
     )
@@ -50,7 +49,7 @@ async def check_invested(
 async def check_closed(
     project_id: int,
     session: AsyncSession,
-) -> None:
+):
     project_closed = await charity_project_crud.get_full_invested(
         project_id, session
     )
@@ -65,7 +64,7 @@ async def check_full_amount(
     project_id: int,
     full_amount: int,
     session: AsyncSession,
-) -> None:
+):
     invested_amount = await charity_project_crud.get_invested_amount(
         project_id, session
     )
