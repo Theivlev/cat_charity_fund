@@ -73,10 +73,9 @@ async def renew_poject(
 
     if obj_in.name is not None:
         await check_duplicate(obj_in.name, session)
-    project = await charity_project_crud.update(project, obj_in, session)
     await investing(project, session)
     await session.refresh(project)
-    return project
+    return await charity_project_crud.update(project, obj_in, session)
 
 
 @router.delete(
@@ -91,7 +90,4 @@ async def delete_project(
     charity_project = await check_exists(project_id, session)
     await check_invested(project_id, session)
 
-    charity_project = await charity_project_crud.remove(
-        charity_project, session
-    )
-    return charity_project
+    return await charity_project_crud.remove(charity_project, session)

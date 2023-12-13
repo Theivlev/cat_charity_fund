@@ -30,10 +30,10 @@ async def investing(
             obj_in.invested_amount += investment
 
             if obj.full_amount == obj.invested_amount:
-                await close_invested(obj)
+                close_invested(obj)
 
             if not total_available_amount:
-                await close_invested(obj_in)
+                close_invested(obj_in)
                 break
         await session.commit()
 
@@ -51,7 +51,7 @@ async def get_not_invested(
     return objects.scalars().all()
 
 
-async def close_invested(
+def close_invested(
         obj: Union[CharityProject, Donation],
 ):
     obj.fully_invested = True
